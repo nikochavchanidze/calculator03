@@ -23,19 +23,18 @@ public class calculator03 extends JFrame {
     private JButton xButton;
     private JTextArea LIL;
     private JButton deleteButton;
-    double tell;
-    String operator="";
-    String operand1="";
-    String operand2="";
+    static double tell;
+    static String operator="";
+    static String operand1="";
+    static String operand2="";
 
     public calculator03() {
-
 
         a1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("1");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "1";
                 }else {
                     operand2 = operand2 + "1";
@@ -47,7 +46,7 @@ public class calculator03 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("2");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "2";
                 }else {
                     operand2 = operand2 + "2";
@@ -59,7 +58,7 @@ public class calculator03 extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 LIL.append("3");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷") & Objects.equals(operand1, "")){
+                if(operator.equals("")){
                     operand1 = operand1 + "3";
                 }else {
                     operand2 = operand2 + "3";
@@ -69,20 +68,23 @@ public class calculator03 extends JFrame {
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(Objects.equals(operator, "")){
-                    LIL.append("-");
-                    operator = ("-");
-                }else if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if (operand2.equals("")) {
                     String currentText = LIL.getText();
-                    String li = currentText.substring(0,currentText.length()-1);
-                    currentText = li + "-";
-                    LIL.setText(currentText);
+                    if (!operator.isEmpty()) {
+                        currentText = currentText.substring(0, currentText.length() - 1) + "-";
+                        LIL.setText(currentText);
+                    } else {
+                        LIL.append("-");
+                    }
                     operator = ("-");
-                }else if(Objects.equals(operator, "+") || Objects.equals(operator, "-") ||
-                        Objects.equals(operator, "x") || Objects.equals(operator, "÷")){
+                }
+                else {
+                    getNumber();
                     operator = ("-");
-                    LIL.setText(String.valueOf(Double.parseDouble(operand1) - Double.parseDouble(operand2)) + "-");
-                    operand1 = String.valueOf(Double.parseDouble(operand1) - Double.parseDouble(operand2));
+                    LIL.setText(String.valueOf(Math.round(tell*100.0)/100.0));
+                    operand1 = String.valueOf(Math.round(tell*100.0)/100.0);
+                    LIL.setText(operand1 + operator);
+                    operand2 = "";
                 }
             }
         });
@@ -90,7 +92,7 @@ public class calculator03 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("4");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "4";
                 }else {
                     operand2 = operand2 + "4";
@@ -101,7 +103,7 @@ public class calculator03 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("5");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "5";
                 }else {
                     operand2 = operand2 + "5";
@@ -112,40 +114,45 @@ public class calculator03 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("6");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "6";
                 }else {
                     operand2 = operand2 + "6";
                 }
             }
         });
+
         button8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(Objects.equals(operator, "")) {
-                    LIL.append("+");
-                    operator = ("+");
-                }else if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") &
-                        !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
-                    String currentText = LIL.getText();
-                    String li = currentText.substring(0,currentText.length()-1);
-                    currentText = li + "+";
-                    LIL.setText(currentText);
-                    operator = ("+");
-                }else if(Objects.equals(operator, "+") || Objects.equals(operator, "-") ||
-                        Objects.equals(operator, "x") || Objects.equals(operator, "÷")){
-                    operator = ("+");
-                    LIL.setText(String.valueOf(Double.parseDouble(operand1) + Double.parseDouble(operand2)) + "+");
-                    operand1 = String.valueOf(Double.parseDouble(operand1) + Double.parseDouble(operand2));
-                }
 
+                System.out.println("OPERATOR 1 " + operand1);
+                System.out.println("OPERATOR 2 " + operand2);
+                if (operand2.equals("")) {
+                    String currentText = LIL.getText();
+                    if (!operator.isEmpty()) {
+                        currentText = currentText.substring(0, currentText.length() - 1) + "+";
+                        LIL.setText(currentText);
+                    } else {
+                        LIL.append("+");
+                    }
+                    operator = ("+");
+                }
+                else {
+                    getNumber();
+                    operator = ("+");
+                    LIL.setText(String.valueOf(Math.round(tell*100.0)/100.0));
+                    operand1 = String.valueOf(Math.round(tell*100.0)/100.0);
+                    LIL.setText(operand1 + operator);
+                    operand2 = "";
+                }
             }
         });
         a7Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("7");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "7";
                 }else {
                     operand2 = operand2 + "7";
@@ -156,7 +163,7 @@ public class calculator03 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("8");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "8";
                 }else {
                     operand2 = operand2 + "8";
@@ -167,7 +174,7 @@ public class calculator03 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("9");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "9";
                 }else {
                     operand2 = operand2 + "9";
@@ -177,19 +184,23 @@ public class calculator03 extends JFrame {
         xButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(Objects.equals(operator, "")) {
-                    LIL.append("x");
-                    operator = ("x");
-                }else if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if (operand2.equals("")) {
                     String currentText = LIL.getText();
-                    String li = currentText.substring(0,currentText.length()-1);
-                    currentText = li + "x";
-                    LIL.setText(currentText);
+                    if (!operator.isEmpty()) {
+                        currentText = currentText.substring(0, currentText.length() - 1) + "x";
+                        LIL.setText(currentText);
+                    } else {
+                        LIL.append("x");
+                    }
                     operator = ("x");
-                }else{
+                }
+                else {
+                    getNumber();
                     operator = ("x");
-                    LIL.setText(String.valueOf(Double.parseDouble(operand1) * Double.parseDouble(operand2)) + "x");
-                    operand1 = String.valueOf(Double.parseDouble(operand1) * Double.parseDouble(operand2));
+                    LIL.setText(String.valueOf(Math.round(tell*100.0)/100.0));
+                    operand1 = String.valueOf(Math.round(tell*100.0)/100.0);
+                    LIL.setText(operand1 + operator);
+                    operand2 = "";
                 }
             }
         });
@@ -198,7 +209,7 @@ public class calculator03 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append("0");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + "0";
                 }else {
                     operand2 = operand2 + "0";
@@ -210,7 +221,7 @@ public class calculator03 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LIL.append(".");
-                if(!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if(operator.equals("")){
                     operand1 = operand1 + ".";
                 }else {
                     operand2 = operand2 + ".";
@@ -220,21 +231,23 @@ public class calculator03 extends JFrame {
         button12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(Objects.equals(operator, "")) {
-                    LIL.append("÷");
-                    operator = ("÷");
-                }else if (!Objects.equals(operator, "+") & !Objects.equals(operator, "-") & !Objects.equals(operator, "x") & !Objects.equals(operator, "÷")){
+                if (operand2.equals("")) {
                     String currentText = LIL.getText();
-                    String li = currentText.substring(0,currentText.length()-1);
-                    currentText = li + "÷";
-                    LIL.setText(currentText);
+                    if (!operator.isEmpty()) {
+                        currentText = currentText.substring(0, currentText.length() - 1) + "÷";
+                        LIL.setText(currentText);
+                    } else {
+                        LIL.append("÷");
+                    }
                     operator = ("÷");
-                }else{
-
+                }
+                else {
+                    getNumber();
                     operator = ("÷");
-                    LIL.setText(String.valueOf(Double.parseDouble(operand1) / Double.parseDouble(operand2)) + "÷");
-                    operand1 = String.valueOf(Double.parseDouble(operand1) / Double.parseDouble(operand2));
-
+                    LIL.setText(String.valueOf(Math.round(tell*100.0)/100.0));
+                    operand1 = String.valueOf(Math.round(tell*100.0)/100.0);
+                    LIL.setText(operand1 + operator);
+                    operand2 = "";
                 }
             }
         });
@@ -248,29 +261,14 @@ public class calculator03 extends JFrame {
             }
         });
 
-
-
         button13.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(operand1);
                 System.out.println(operand2);
-                switch (operator) {
-                    case "+":
-                        tell = (Double.parseDouble(operand1) + Double.parseDouble(operand2));
-                        break;
-                    case "-":
-                        tell = (Double.parseDouble(operand1) - Double.parseDouble(operand2));
-                        break;
-                    case "÷":
-                        tell = (Double.parseDouble(operand1) / Double.parseDouble(operand2));
-                        break;
-                    case "x":
-                        tell = (Double.parseDouble(operand1) * Double.parseDouble(operand2));
-                        break;
-                }
+                getNumber();
                 LIL.setText(String.valueOf(Math.round(tell*100.0)/100.0));
-                operand1 = "";
+               operand1 = String.valueOf(Math.round(tell*100.0)/100.0);
                 operand2 = "";
                 operator = "";
 
@@ -278,10 +276,6 @@ public class calculator03 extends JFrame {
             }
         });
     }
-
-
-
-
     public static void main(String[] args) {
         calculator03 c = new calculator03();
         c.setVisible(true);
@@ -289,6 +283,22 @@ public class calculator03 extends JFrame {
         c.setContentPane(c.panel1);
         c.setSize(300,400);
         c.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
+    static void getNumber() {
+        switch (operator) {
+            case "+":
+                tell = (Double.parseDouble(operand1) + Double.parseDouble(operand2));
+                break;
+            case "-":
+                tell = (Double.parseDouble(operand1) - Double.parseDouble(operand2));
+                break;
+            case "÷":
+                tell = (Double.parseDouble(operand1) / Double.parseDouble(operand2));
+                break;
+            case "x":
+                tell = (Double.parseDouble(operand1) * Double.parseDouble(operand2));
+                break;
+        }
     }
 }
